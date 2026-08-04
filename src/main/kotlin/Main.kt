@@ -1,8 +1,10 @@
 package ie.setu.recipiehub.main
 
 import java.lang.System.exit
-
-
+import ie.setu.recipiehub.main.utils.readIntNotNull
+import ie.setu.recipiehub.main.utils.readNextInt
+import ie.setu.recipiehub.main.utils.readNextDouble
+import ie.setu.recipiehub.main.utils.readNextFloat
 
 
 
@@ -28,8 +30,7 @@ import java.lang.System.exit
                |   |0. Exit                                                      |       
                ___________________________________________________________________
                """.trimMargin(">"))
-
-    return readlnOrNull()?.toIntOrNull() ?: -1
+        return readNextInt(" > ==>>")
     }
 
     fun runMenu(){
