@@ -5,6 +5,7 @@ import ie.setu.recipiehub.main.utils.readIntNotNull
 import ie.setu.recipiehub.main.utils.readNextInt
 import ie.setu.recipiehub.main.utils.readNextDouble
 import ie.setu.recipiehub.main.utils.readNextFloat
+import io.github.oshai.kotlinlogging.KotlinLogging
 
 
 
@@ -48,19 +49,20 @@ import ie.setu.recipiehub.main.utils.readNextFloat
 
 
     fun addRecipe(){
-        println("you chose add a recipe!")
+        logger.info { "addRecipe() function invoked" }
+
     }
 
     fun viewRecipe(){
-        println("you chose view a recipe")
+        logger.info { "viewRecipe() function invoked" }
     }
 
     fun delRecipe(){
-        println("you chose delete a recipe")
+        logger.info { "delRecipe() function invoked" }
     }
 
     fun scaleRecipe(){
-        println("you chose scale a recipe")
+        logger.info { " scaleRecipe() function invoked" }
     }
 
     fun exitApp(){
@@ -68,6 +70,8 @@ import ie.setu.recipiehub.main.utils.readNextFloat
         exit(0)
     }
 
+
+private val logger = KotlinLogging.logger {}
     fun main() {
         runMenu()
     }
