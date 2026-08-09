@@ -21,7 +21,7 @@ fun readNextDouble(prompt: String?): Double {
             print(prompt)
             return readln().toDouble()
         } catch (e: NumberFormatException) {
-            System.err.println("\tEnter a word or sentence please.")
+            System.err.println("\tEnter a decimal please." )
         }
     } while (true)
 }
@@ -33,7 +33,7 @@ fun readNextFloat(prompt: String?): Float {
             print(prompt)
             return readln().toFloat()
         } catch (e: NumberFormatException) {
-            System.err.println("\tEnter a decimal please.")
+            System.err.println("\tEnter  a decimal please.")
         }
     } while (true)
 }
@@ -48,7 +48,7 @@ fun readNextChar(prompt: String?): Char {
         try{
             print(prompt)
             return readln().first()
-        } catch (e: NumberFormatException) {
+        } catch (e: Exception) {
             System.err.println("\tEnter a character please.")
         }
     } while (true)
