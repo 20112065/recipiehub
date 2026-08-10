@@ -1,8 +1,13 @@
 package ie.setu.recipiehub.main
 
+import ie.setu.recipiehub.main.controllers.RecipeAPI
 import java.lang.System.exit
 import ie.setu.recipiehub.main.utils.readNextInt
+import ie.setu.recipiehub.main.utils.readNextLine
+import ie.setu.recipiehub.main.models.Recipe
 import io.github.oshai.kotlinlogging.KotlinLogging
+
+
 
 
 
@@ -46,12 +51,24 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 
 
     fun addRecipe(){
+        val recipeTitle = readNextLine("Enter the name of the new recipe you would like to create")
+        val recipeIngredient = readNextLine("Enter the Ingredients and the size in grams or ml")
+        val recipeCategory = readNextLine("Enter the Type of Cuisine yoyr recipe is from, eg. 'Italian', 'Chinese'")
+        val recipeServingSize: String = readNextLine("Please enter the Serving size of your recipe in persons, eg. 4 = persons")
+        val recipeSpiceLevel = readNextLine("Please enter the Spice level of your recipe from a sclae of 1-5, 5 being the spiciest")
+        val isAdded = RecipeAPI.add(Recipe(recipeTitle, recipeIngredient, recipeCategory, recipeServingSize, recipeSpiceLevel, false))
 
-        logger.info { "addRecipe() function invoked" }
-    }
+        if (isAdded) {
+
+        println("Successfully added a new recipe called ${recipeTitle}")
+        }else {
+
+             println("The adding of your recipe has failed, please try again")
+            }
+        }
 
     fun viewRecipe(){
-        logger.info { "viewRecipe() function invoked" }
+       println(RecipeAPI.listAllRecipes())
     }
 
     fun delRecipe(){
@@ -68,7 +85,10 @@ import io.github.oshai.kotlinlogging.KotlinLogging
     }
 
 
+
 private val logger = KotlinLogging.logger {}
+private val RecipeAPI = RecipeAPI()
+
     fun main() {
         runMenu()
     }
