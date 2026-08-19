@@ -8,6 +8,5 @@ data class Recipe(
     val recipeServingSize: String,
     val recipeSpiceLevel: String,
     val bool: Boolean
-){
+)
 
-}
