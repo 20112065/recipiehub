@@ -56,7 +56,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
         val recipeCategory = readNextLine("Enter the Type of Cuisine yoyr recipe is from, eg. 'Italian', 'Chinese'")
         val recipeServingSize: String = readNextLine("Please enter the Serving size of your recipe in persons, eg. 4 = persons")
         val recipeSpiceLevel = readNextLine("Please enter the Spice level of your recipe from a sclae of 1-5, 5 being the spiciest")
-        val isAdded = RecipeAPI.add(Recipe(recipeTitle, recipeIngredient, recipeCategory, recipeServingSize, recipeSpiceLevel, false))
+        val isAdded = RecipeAPI.add(Recipe(recipeTitle, recipeIngredient, recipeCategory, recipeServingSize, recipeSpiceLevel, false, isRecipeActive = true ))
 
         if (isAdded) {
 
@@ -69,6 +69,8 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 
     fun viewRecipe(){
        println(RecipeAPI.listAllRecipes())
+        println(RecipeAPI.listActiveRecipes())
+        println(RecipeAPI.listArchivedRecipes())
     }
 
     fun delRecipe(){

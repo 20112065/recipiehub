@@ -7,6 +7,7 @@ data class Recipe(
     val recipeCategory: String,
     val recipeServingSize: String,
     val recipeSpiceLevel: String,
-    val bool: Boolean
+    val isRecipeArchived: Boolean= true,
+    val isRecipeActive: Boolean = false,
 )
 
