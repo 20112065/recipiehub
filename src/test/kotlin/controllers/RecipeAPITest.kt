@@ -5,6 +5,7 @@ import ie.setu.recipiehub.main.controllers.RecipeAPI
 import ie.setu.recipiehub.main.models.Recipe
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -31,15 +32,31 @@ class RecipeAPITest {
             "2 people",
             "1",
             isRecipeArchived = false,
+            isRecipeActive = true,
+            recipePriority = 1,
+        )
+        chips = Recipe(
+            "chips ",
+            "potatoes 100g, oil 500g",
+            "irish",
+            "2 people",
+            "1",
+            isRecipeArchived = true,
+            isRecipeActive = false
+        )
+        pizza = Recipe(
+            "pizza", "dough 700g, meat 500g, tomatoes 100g", "Italian", "5 people", "1", isRecipeArchived = true,
+            isRecipeActive = false
+        )
+        cheeseToastie = Recipe(
+            "cheeseToastie", "cheese 70g, bread 100g", "french", "1 people", "1", isRecipeArchived = false,
             isRecipeActive = true
         )
-        chips = Recipe("chips ", "potatoes 100g, oil 500g", "irish", "2 people", "1", isRecipeArchived = true,  isRecipeActive = false)
-        pizza = Recipe("pizza", "dough 700g, meat 500g, tomatoes 100g", "Italian", "5 people", "1", isRecipeArchived = true,
-            isRecipeActive = false)
-        cheeseToastie = Recipe("cheeseToastie", "cheese 70g, bread 100g", "french", "1 people", "1", isRecipeArchived = false,
-            isRecipeActive = true)
-        steak = Recipe("steak", "butter 100g, rosemary 5g, steak 400g", "american", "2 people", "1", isRecipeArchived = false,
-            isRecipeActive = true)
+        steak = Recipe(
+            "steak", "butter 100g, rosemary 5g, steak 400g", "american", "2 people", "1", isRecipeArchived = false,
+            isRecipeActive = true,
+            recipePriority = 2,
+        )
 
         //add the 5 recipes to recipeapi
         populatedRecipes!!.add(spaghettiBolegneise!!)
@@ -100,16 +117,13 @@ class RecipeAPITest {
             assertTrue(recipesString.contains("pizza"))
             assertTrue(recipesString.contains("steak"))
         }
-    }
 
 
-    @Nested
-    inner class listActiveRecipes() {
         //empty?
         @Test
         fun `listActiveRecipes returns No Recipes Stored message when ArrayList is empty`() {
             assertEquals(0, emptyRecipes!!.numberOfActiveRecipes())
-            assertTrue(emptyRecipes!!.listActiveRecipes().lowercase().contains( "no active recipes stored"))
+            assertTrue(emptyRecipes!!.listActiveRecipes().lowercase().contains("no active recipes stored"))
         }
 
         @Test
@@ -122,11 +136,8 @@ class RecipeAPITest {
             assertTrue(!recipesString.contains("chips"))
             assertTrue(!recipesString.contains("pizza"))
         }
-    }
 
 
-    @Nested
-    inner class listArchivedRecipes(){
         //empty?
         @Test
         fun `listArchivedRecipes returns No archived Recipes Stored message when ArrayList is empty`() {
@@ -147,5 +158,32 @@ class RecipeAPITest {
 
         }
     }
+
+
+    @Test
+    fun `listRecipesBySelectedPriority returns no recipes when arraylist is empty`() {
+        assertEquals(0, emptyRecipes!!.numberOfRecipes())
+        assertTrue(
+            emptyRecipes!!.listRecipesBySelectedPriority(1).lowercase().contains("no recipes")
+        )
+
+    }
+
+    @Test
+    fun `listRecipesBySelectedPriority retruns "no recipes when no recipes of that specific priority exist `() {
+        //priority1- 1 recipe, 2 recipe, 3 noRecipe, 4 noRecipe, 5 noRecipe
+        assertEquals(5, populatedRecipes!!.numberOfRecipes())
+
+        val priority1String = populatedRecipes!!.listRecipesBySelectedPriority(1).lowercase()
+        assertTrue(priority1String.contains("recipepriority=1"))
+        assertTrue(priority1String.contains("speghetti bolegneise"))
+
+        val priority2String = populatedRecipes!!.listRecipesBySelectedPriority(2).lowercase()
+
+        assertTrue(priority2String.contains("recipepriority=2"))
+        assertTrue(priority2String.contains("steak"))
+
+    }
 }
+
 

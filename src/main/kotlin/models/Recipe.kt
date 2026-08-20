@@ -9,5 +9,6 @@ data class Recipe(
     val recipeSpiceLevel: String,
     val isRecipeArchived: Boolean= true,
     val isRecipeActive: Boolean = false,
+    var recipePriority: Int = 1,
 )
 
