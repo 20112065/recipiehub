@@ -74,7 +74,19 @@ import io.github.oshai.kotlinlogging.KotlinLogging
     }
 
     fun delRecipe(){
-        logger.info { "delRecipe() function invoked" }
+        //logger.info { "delRecipe() function invoked" }
+        viewRecipe()
+        if (RecipeAPI.numberOfRecipes()>0){
+            //only asking the user to choose a recipie they can delete if the recipe exists
+            val indextToDelete = readNextInt("Please enter the index of the recipe you would like to delete: ")
+        // passing the index of the note from their prompt to NoteApi for deleting and check for success
+            val recipeToDelete = RecipeAPI.deleteRecipe(indextToDelete)
+            if (recipeToDelete != null) {
+                println("Your Delete Successful! Deleted Recipe: ${recipeToDelete.recipeTitle}")
+            } else {
+                println("The Delete was NOT Successful, please try again")
+            }
+        }
     }
 
     fun scaleRecipe(){

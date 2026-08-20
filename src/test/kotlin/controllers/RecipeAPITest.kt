@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertNull
 
 
 class RecipeAPITest {
@@ -184,7 +185,30 @@ class RecipeAPITest {
         assertTrue(priority2String.contains("steak"))
 
     }
-}
+
+    @Nested
+    inner class DeletedRecipes{
+
+        @Test
+        fun `Delete a recipe that does not exist and it returns back null`() {
+            assertNull(emptyRecipes!!.deleteRecipe(0))
+            assertNull(populatedRecipes!!.deleteRecipe(-1))
+            assertNull(populatedRecipes!!.deleteRecipe(5))
+        }
+
+        @Test
+        fun `deleting a recipe that exists and returns back deleted recipe`(){
+            assertEquals(5, populatedRecipes!!.numberOfRecipes())
+            assertEquals(steak, populatedRecipes!!.deleteRecipe(4))
+            assertEquals(4, populatedRecipes!!.numberOfRecipes())
+            assertEquals(spaghettiBolegneise, populatedRecipes!!.deleteRecipe(0))
+            assertEquals(3, populatedRecipes!!.numberOfRecipes())
+        }
+    }
+
+
+        }
+
 
 
 //github erroe
