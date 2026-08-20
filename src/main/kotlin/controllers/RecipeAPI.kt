@@ -95,4 +95,11 @@ class RecipeAPI {
     fun numberOfRecipesByPriority(priority: Int): Int {
         return recipes.count { it.recipePriority == priority }
     }
+
+    fun deleteRecipe(indexToDelete: Int): Recipe? {
+        return if (isValidListIndex(indexToDelete, recipes)) {
+            recipes.removeAt(indexToDelete)
+        } else null
+    }
+
 }
