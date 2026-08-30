@@ -73,12 +73,10 @@ class RecipeAPI {
     }
 
 
-
-
-
     fun listRecipesBySelectedPriority(priority: Int): String {
-        if (priority !in 1..5){return "Invalid priority level $priority. Priority must be between 1 and 5."
-            }
+        if (priority !in 1..5) {
+            return "Invalid priority level $priority. Priority must be between 1 and 5."
+        }
         return if (numberOfRecipesByPriority(priority) == 0) {
             "no recipes stored with prority ${priority}"
         } else {
@@ -94,5 +92,27 @@ class RecipeAPI {
 
     fun numberOfRecipesByPriority(priority: Int): Int {
         return recipes.count { it.recipePriority == priority }
+    }
+
+
+    fun updateRecipe(indexToUpdate: Int, recipe: Recipe?): Boolean {
+        // finding the recipe object by the index number
+        val foundRecipe = findRecipe(indexToUpdate)
+
+        //IF THE RECIPE EXISTS USE THE RECIPE DETAILS AS A PARAMETER TO UPDATE THE RECIPE YOU FOUND IN THE ARRAYLIST
+        if ((foundRecipe != null) && (recipe != null)) {
+            foundRecipe.recipeTitle = recipe.recipeTitle
+            foundRecipe.recipePriority = recipe.recipePriority
+            foundRecipe.recipeCategory = recipe.recipeCategory
+            return true
+
+        }
+        //if the recipe was not found return false
+        return false
+    }
+
+
+    fun isValidIndex(index: Int): Boolean {
+        return isValidListIndex(index, recipes);
     }
 }

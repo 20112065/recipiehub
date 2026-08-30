@@ -74,12 +74,37 @@ import io.github.oshai.kotlinlogging.KotlinLogging
     }
 
     fun delRecipe(){
-        logger.info { "delRecipe() function invoked" }
+        //logger.info { "delRecipe() function invoked" }
     }
+
 
     fun scaleRecipe(){
         logger.info { " scaleRecipe() function invoked" }
     }
+
+fun updateRecipe() {
+    //logger.info { "updateRecipes() function invoked" }
+    listRecipe()
+    if (RecipeAPI.numberOfRecipes() > 0) {
+        //only ask the user to choose the recipe if recipes exist
+        val indexToUpdate = readNextInt("Enter the index of the recipe to update: ")
+        if (recipeAPI.isValidIndex(indexToUpdate)) {
+            val recipeTitle = readNextLine("Enter a title for the recipe: ")
+            val recipePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
+            val recipeCategory = readNextLine("Enter a category for the recipe: ")
+
+            //pass the index of the recipe and the new recipe details to RecipeAPI for updating and check for success.
+            if (    RecipeAPI.updateRecipe(indexToUpdate, recipe(recipeTitle, recipePriority, recipeCategory, false))){
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no recipes for this index number")
+        }
+    }
+}
+
 
     fun exitApp(){
         println("you are now exiting the app, goodbye!")
