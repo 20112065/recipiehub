@@ -6,6 +6,7 @@ import ie.setu.recipiehub.main.utils.readNextInt
 import ie.setu.recipiehub.main.utils.readNextLine
 import ie.setu.recipiehub.main.models.Recipe
 import io.github.oshai.kotlinlogging.KotlinLogging
+import ie.setu.recipiehub.main.utils.readNextDouble
 
 fun mainMenu() : Int {
     println(
@@ -86,7 +87,22 @@ fun delRecipe(){
 }
 
 fun scaleRecipe(){
-    logger.info { " scaleRecipe() function invoked" }
+    //logger.info { " scaleRecipe() function invoked" }
+    viewRecipe()
+    if (RecipeAPI.numberOfRecipes()>0){
+        val indexToScale = readNextInt("Please enter the index of the recipe you would like to scale up or down: ")
+        if (RecipeAPI.isValidIndex(indexToScale)) {
+            val scaleNumber = readNextDouble("please enter a number you would like to scale your recipe by: eg. choose 2 to double the amount, or 0.5 to halve the amount ")
+            val scaledRecipe = RecipeAPI.scaleRecipe(indexToScale, scaleNumber)
+            if (scaledRecipe != null) {
+                println("your recipe ${scaledRecipe.recipeTitle} has scaled  for ${scaledRecipe.recipeServingSize} succsesfully!")
+            } else {
+                println("the scale was not successful please try again")
+            }
+        } else {
+            println("there are no recipes for this index number")
+        }
+    }
 }
 
 fun updateRecipe() {
