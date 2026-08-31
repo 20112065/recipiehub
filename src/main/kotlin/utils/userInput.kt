@@ -1,7 +1,5 @@
 package ie.setu.recipiehub.main.utils
 
-
-
 fun readIntNotNull() = readlnOrNull()?.toIntOrNull() ?: -1
 
 fun readNextInt(prompt: String?): Int {
@@ -21,11 +19,10 @@ fun readNextDouble(prompt: String?): Double {
             print(prompt)
             return readln().toDouble()
         } catch (e: NumberFormatException) {
-            System.err.println("\tEnter a decimal please." )
+            System.err.println("\tEnter a decimal please.")
         }
     } while (true)
 }
-
 
 fun readNextFloat(prompt: String?): Float {
     do {
@@ -44,8 +41,8 @@ fun readNextLine(prompt: String?): String {
 }
 
 fun readNextChar(prompt: String?): Char {
-    do{
-        try{
+    do {
+        try {
             print(prompt)
             return readln().first()
         } catch (e: Exception) {

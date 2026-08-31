@@ -1,14 +1,14 @@
 package ie.setu.recipiehub.main
 
 import ie.setu.recipiehub.main.controllers.RecipeAPI
-import java.lang.System.exit
+import ie.setu.recipiehub.main.models.Recipe
+import ie.setu.recipiehub.main.utils.readNextDouble
 import ie.setu.recipiehub.main.utils.readNextInt
 import ie.setu.recipiehub.main.utils.readNextLine
-import ie.setu.recipiehub.main.models.Recipe
 import io.github.oshai.kotlinlogging.KotlinLogging
-import ie.setu.recipiehub.main.utils.readNextDouble
+import java.lang.System.exit
 
-fun mainMenu() : Int {
+fun mainMenu(): Int {
     println(
         """___________________________________________________________________
            |                                                                 |
@@ -31,51 +31,56 @@ fun mainMenu() : Int {
            |-----------------------------------------------------------------|
            |   |0. Exit                                                      |
            ___________________________________________________________________
-           """.trimMargin(">"))
+           """.trimMargin(">"),
+    )
     return readNextInt(" > ==>>")
 }
-//run menu
-fun runMenu(){
-    do{
+
+// run menu
+fun runMenu() {
+    do {
         val option = mainMenu()
 
-        when (option){
+        when (option) {
             1 -> addRecipe()
             2 -> viewRecipe()
             3 -> delRecipe()
             4 -> scaleRecipe()
             5 -> updateRecipe()
-            else -> println("Oops! You chose an invalid option: ${option}")
+            else -> println("Oops! You chose an invalid option: $option")
         }
-    } while(true)
+    } while (true)
 }
 
-fun addRecipe(){
+fun addRecipe() {
     val recipeTitle = readNextLine("Enter the name of the new recipe you would like to create")
     val recipeIngredient = readNextLine("Enter the Ingredients and the size in grams or ml")
     val recipeCategory = readNextLine("Enter the Type of Cuisine yoyr recipe is from, eg. 'Italian', 'Chinese'")
     val recipeServingSize: String = readNextLine("Please enter the Serving size of your recipe in persons, eg. 4 = persons")
     val recipeSpiceLevel = readNextLine("Please enter the Spice level of your recipe from a sclae of 1-5, 5 being the spiciest")
-    val isAdded = RecipeAPI.add(Recipe(recipeTitle, recipeIngredient, recipeCategory, recipeServingSize, recipeSpiceLevel, false, isRecipeActive = true ))
+    val isAdded =
+        RecipeAPI.add(
+            Recipe(recipeTitle, recipeIngredient, recipeCategory, recipeServingSize, recipeSpiceLevel, false, isRecipeActive = true),
+        )
 
     if (isAdded) {
-        println("Successfully added a new recipe called ${recipeTitle}")
+        println("Successfully added a new recipe called $recipeTitle")
     } else {
         println("The adding of your recipe has failed, please try again")
     }
 }
 
-fun viewRecipe(){
+fun viewRecipe() {
     println(RecipeAPI.listAllRecipes())
     println(RecipeAPI.listActiveRecipes())
     println(RecipeAPI.listArchivedRecipes())
 }
 
-fun delRecipe(){
-    //logger.info { "delRecipe() function invoked" }
+fun delRecipe() {
+    // logger.info { "delRecipe() function invoked" }
     viewRecipe()
-    if (RecipeAPI.numberOfRecipes()>0){
-        //only asking the user to choose a recipie they can delete if the recipe exists
+    if (RecipeAPI.numberOfRecipes() > 0) {
+        // only asking the user to choose a recipie they can delete if the recipe exists
         val indextToDelete = readNextInt("Please enter the index of the recipe you would like to delete: ")
         val recipeToDelete = RecipeAPI.deleteRecipe(indextToDelete)
         if (recipeToDelete != null) {
@@ -86,13 +91,17 @@ fun delRecipe(){
     }
 }
 
-fun scaleRecipe(){
-    //logger.info { " scaleRecipe() function invoked" }
+fun scaleRecipe() {
+    // logger.info { " scaleRecipe() function invoked" }
     viewRecipe()
-    if (RecipeAPI.numberOfRecipes()>0){
+    if (RecipeAPI.numberOfRecipes() > 0) {
         val indexToScale = readNextInt("Please enter the index of the recipe you would like to scale up or down: ")
         if (RecipeAPI.isValidIndex(indexToScale)) {
-            val scaleNumber = readNextDouble("please enter a number you would like to scale your recipe by: eg. choose 2 to double the amount, or 0.5 to halve the amount ")
+            val scaleNumber =
+                readNextDouble(
+                    "please enter a number you would like to scale your recipe by: eg. choose 2 to double the amount, " +
+                        "or 0.5 to halve the amount ",
+                )
             val scaledRecipe = RecipeAPI.scaleRecipe(indexToScale, scaleNumber)
             if (scaledRecipe != null) {
                 println("your recipe ${scaledRecipe.recipeTitle} has scaled  for ${scaledRecipe.recipeServingSize} succsesfully!")
@@ -106,7 +115,7 @@ fun scaleRecipe(){
 }
 
 fun updateRecipe() {
-    //logger.info { "updateRecipes() function invoked" }
+    // logger.info { "updateRecipes() function invoked" }
     viewRecipe()
     if (RecipeAPI.numberOfRecipes() > 0) {
         val indexToUpdate = readNextInt("Enter the index of the recipe to update: ")
@@ -115,7 +124,7 @@ fun updateRecipe() {
             val recipePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
             val recipeCategory = readNextLine("Enter a category for the recipe: ")
 
-            if (RecipeAPI.updateRecipe(indexToUpdate, Recipe(recipeTitle, "", recipeCategory, "", "", recipePriority = recipePriority))){
+            if (RecipeAPI.updateRecipe(indexToUpdate, Recipe(recipeTitle, "", recipeCategory, "", "", recipePriority = recipePriority))) {
                 println("Update Successful")
             } else {
                 println("Update Failed")
@@ -126,7 +135,7 @@ fun updateRecipe() {
     }
 }
 
-fun exitApp(){
+fun exitApp() {
     println("you are now exiting the app, goodbye!")
     exit(0)
 }
