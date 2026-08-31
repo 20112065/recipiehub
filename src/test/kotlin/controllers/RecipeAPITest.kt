@@ -207,7 +207,31 @@ class RecipeAPITest {
     }
 
 
+        @Nested
+        inner class UpdateRecipes {
+            @Test
+            fun `updating a recipe that does not exist returns false`(){
+                assertFalse(populatedRecipes!!.updateRecipe(6, Recipe("Updating Recipe", "ingredients", "category", "2 people", "1", recipePriority = 2)))
+                assertFalse(populatedRecipes!!.updateRecipe(-1, Recipe("Updating Recipe", "ingredients", "category", "2 people", "1", recipePriority = 2)))
+                assertFalse(emptyRecipes!!.updateRecipe(0, Recipe("Updating Recipe", "ingredients", "category", "2 people", "1", recipePriority = 2)))
+            }
+
+            @Test
+            fun `updating a recipe that exists returns true and updates`() {
+                //check recipe 5 (steak) exists and check the contents
+                assertEquals(steak, populatedRecipes!!.findRecipe(4))
+                assertEquals("steak", populatedRecipes!!.findRecipe(4)!!.recipeTitle)
+                assertEquals(2, populatedRecipes!!.findRecipe(4)!!.recipePriority)
+                assertEquals("american", populatedRecipes!!.findRecipe(4)!!.recipeCategory)
+
+                //update recipe 5 with new information and ensure contents updated successfully
+                assertTrue(populatedRecipes!!.updateRecipe(4, Recipe("Updated Steak", "new ingredients 200g", "fusion", "4 people", "3", recipePriority = 5)))
+                assertEquals("Updated Steak", populatedRecipes!!.findRecipe(4)!!.recipeTitle)
+                assertEquals(5, populatedRecipes!!.findRecipe(4)!!.recipePriority)
+                assertEquals("fusion", populatedRecipes!!.findRecipe(4)!!.recipeCategory)
+            }
         }
+}
 
 
 

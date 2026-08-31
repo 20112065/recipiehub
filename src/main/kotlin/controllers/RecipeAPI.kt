@@ -31,7 +31,6 @@ class RecipeAPI {
         } else null
     }
 
-    // Using a utility method to see if an index is valid in a list
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0) && (index < list.size)
     }
@@ -72,13 +71,9 @@ class RecipeAPI {
         return recipes.count { it.isRecipeActive }
     }
 
-
-
-
-
     fun listRecipesBySelectedPriority(priority: Int): String {
         if (priority !in 1..5){return "Invalid priority level $priority. Priority must be between 1 and 5."
-            }
+        }
         return if (numberOfRecipesByPriority(priority) == 0) {
             "no recipes stored with prority ${priority}"
         } else {
@@ -102,4 +97,23 @@ class RecipeAPI {
         } else null
     }
 
+    fun isValidIndex(index: Int): Boolean {
+        return isValidListIndex(index, recipes)
+    }
+
+    fun updateRecipe(indexToUpdate: Int, recipe: Recipe?): Boolean {
+        //find the recipe object by the index number
+        val foundRecipe = findRecipe(indexToUpdate)
+
+        //IF THE RECIPE EXISTS USE THE RECIPE DETAILS AS A PARAMETER TO UPDATE THE RECIPE YOU FOUND IN THE ARRAYLIST
+        if ((foundRecipe != null) && (recipe != null)) {
+            foundRecipe.recipeTitle = recipe.recipeTitle
+            foundRecipe.recipePriority = recipe.recipePriority
+            foundRecipe.recipeCategory = recipe.recipeCategory
+            return true
+        }
+
+        //if the recipe was not found, return false, indicating that the update was not successful
+        return false
+    }
 }

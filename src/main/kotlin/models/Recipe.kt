@@ -2,13 +2,13 @@ package ie.setu.recipiehub.main.models
 
 
 data class Recipe(
-    val recipeTitle: String,
-    val recipeIngredient: String,
-    val recipeCategory: String,
-    val recipeServingSize: String,
-    val recipeSpiceLevel: String,
-    val isRecipeArchived: Boolean= true,
-    val isRecipeActive: Boolean = false,
+    var recipeTitle: String,
+    var recipeIngredient: String,
+    var recipeCategory: String,
+    var recipeServingSize: String,
+    var recipeSpiceLevel: String,
+    var isRecipeArchived: Boolean= true,
+    var isRecipeActive: Boolean = false,
     var recipePriority: Int = 1,
 )
 
