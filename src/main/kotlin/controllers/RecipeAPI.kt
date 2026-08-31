@@ -116,4 +116,22 @@ class RecipeAPI {
         //if the recipe was not found, return false, indicating that the update was not successful
         return false
     }
+
+    fun scaleRecipe(indexToScale: Int, scaleFactor: Double): Recipe? {
+        //find the recipe object by the index number
+        val foundRecipe = findRecipe(indexToScale)
+
+        //if the recipe exists, work out the new serving size by scaling the current one
+        if (foundRecipe != null) {
+            val currentServings = foundRecipe.recipeServingSize.split(" ")[0].toIntOrNull()
+            if (currentServings != null) {
+                val newServings = (currentServings * scaleFactor).toInt()
+                foundRecipe.recipeServingSize = "$newServings people"
+                return foundRecipe
+            }
+        }
+
+        //if the recipe was not found, or its serving size couldn't be read as a number, return null
+        return null
+    }
 }
